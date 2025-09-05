@@ -2,6 +2,7 @@ package com.challenge.aranguriAppsBackend.service;
 
 import com.challenge.aranguriAppsBackend.dto.LoginRequest;
 import com.challenge.aranguriAppsBackend.dto.LoginResponse;
+import com.challenge.aranguriAppsBackend.exception.CredencialesIncorrectasException;
 import com.challenge.aranguriAppsBackend.model.Usuario;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class AutenticacionService {
         Usuario usuario = usuarioService.buscarPorEmail(request.email());
 
         if (!passwordEncoder.matches(request.password(), usuario.getPassword())) {
-            throw new RuntimeException("Contraseña incorrecta");
+            throw new CredencialesIncorrectasException("Contraseña incorrecta");
         }
 
         String token = jwtService.generarToken(usuario.getEmail());
