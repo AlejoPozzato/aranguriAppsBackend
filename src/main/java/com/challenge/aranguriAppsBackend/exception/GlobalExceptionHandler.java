@@ -39,6 +39,30 @@ public class GlobalExceptionHandler {
                 .body(Map.of("error", ex.getMessage()));
     }
 
+    @ExceptionHandler(MateriaNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleMateriaNotFound(MateriaNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(NoPermissionException.class)
+    public ResponseEntity<Map<String, String>> handleNoPermission(NoPermissionException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(ArchivoNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleArchivoNotFound(ArchivoNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(ArchivoNoPerteneceAMateriaException.class)
+    public ResponseEntity<Map<String, String>> handleArchivoNoPertenece(ArchivoNoPerteneceAMateriaException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("error", ex.getMessage()));
+    }
+
     @ExceptionHandler(Exception.class) // cualquier excepción no controlada
     public ResponseEntity<Map<String, String>> handleGeneral(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

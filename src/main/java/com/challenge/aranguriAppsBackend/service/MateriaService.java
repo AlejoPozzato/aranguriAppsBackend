@@ -1,6 +1,8 @@
 package com.challenge.aranguriAppsBackend.service;
 
 import com.challenge.aranguriAppsBackend.dto.MateriaRequest;
+import com.challenge.aranguriAppsBackend.exception.MateriaNotFoundException;
+import com.challenge.aranguriAppsBackend.exception.NoPermissionException;
 import com.challenge.aranguriAppsBackend.model.Materia;
 import com.challenge.aranguriAppsBackend.model.Usuario;
 import com.challenge.aranguriAppsBackend.repository.MateriaRepository;
@@ -41,6 +43,7 @@ public class MateriaService {
 
     //Listar materias de un usuario
     public List<Materia> listarMaterias(int usuarioId) {
+        usuarioService.obtenerUsuarioPorId(usuarioId);
         return materiaRepository.findByUsuarioId(usuarioId);
     }
 
@@ -48,10 +51,10 @@ public class MateriaService {
     @Transactional
     public Materia editarMateria(int usuarioId, int materiaId, MateriaRequest request) {
         Materia materia = materiaRepository.findById(materiaId)
-                .orElseThrow(() -> new RuntimeException("Materia no encontrada"));
+                .orElseThrow(() -> new MateriaNotFoundException("Materia no encontrada"));
 
         if (materia.getUsuario().getId() != usuarioId) {
-            throw new RuntimeException("No tiene permiso para editar esta materia");
+            throw new NoPermissionException("No tiene permiso para editar esta materia");
         }
 
         if (request.nombre() != null) materia.setNombre(request.nombre());
@@ -69,7 +72,7 @@ public class MateriaService {
 
     public Materia buscarPorId(int materiaId) {
         return materiaRepository.findById(materiaId)
-                .orElseThrow(() -> new RuntimeException("Materia no encontrada"));
+                .orElseThrow(() -> new MateriaNotFoundException("Materia no encontrada"));
     }
 
 }

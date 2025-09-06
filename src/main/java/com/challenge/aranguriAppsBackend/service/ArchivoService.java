@@ -1,6 +1,9 @@
 package com.challenge.aranguriAppsBackend.service;
 
 import com.challenge.aranguriAppsBackend.dto.ArchivoRequest;
+import com.challenge.aranguriAppsBackend.exception.ArchivoNoPerteneceAMateriaException;
+import com.challenge.aranguriAppsBackend.exception.ArchivoNotFoundException;
+import com.challenge.aranguriAppsBackend.exception.NoPermissionException;
 import com.challenge.aranguriAppsBackend.model.Archivo;
 import com.challenge.aranguriAppsBackend.model.Materia;
 import com.challenge.aranguriAppsBackend.repository.ArchivoRepository;
@@ -26,7 +29,7 @@ public class ArchivoService {
         Materia materia = materiaService.buscarPorId(materiaId);
 
         if (materia.getUsuario().getId() != usuarioId) {
-            throw new RuntimeException("No tiene permiso para agregar archivos en esta materia");
+            throw new NoPermissionException("No tiene permiso para agregar archivos en esta materia");
         }
 
         Archivo archivo = new Archivo();
@@ -48,7 +51,7 @@ public class ArchivoService {
         Materia materia = materiaService.buscarPorId(materiaId);
 
         if (materia.getUsuario().getId() != usuarioId) {
-            throw new RuntimeException("No tiene permiso para ver estos archivos");
+            throw new NoPermissionException("No tiene permiso para ver estos archivos");
         }
 
         return archivoRepository.findByMateriaId(materiaId);
@@ -59,14 +62,14 @@ public class ArchivoService {
         Materia materia = materiaService.buscarPorId(materiaId);
 
         if (materia.getUsuario().getId() != usuarioId) {
-            throw new RuntimeException("No tiene permiso para eliminar archivos en esta materia");
+            throw new NoPermissionException("No tiene permiso para eliminar archivos en esta materia");
         }
 
         Archivo archivo = archivoRepository.findById(archivoId)
-                .orElseThrow(() -> new RuntimeException("Archivo no encontrado"));
+                .orElseThrow(() -> new ArchivoNotFoundException("Archivo no encontrado"));
 
         if (archivo.getMateria().getId() != materiaId) {
-            throw new RuntimeException("El archivo no pertenece a esta materia");
+            throw new ArchivoNoPerteneceAMateriaException("El archivo no pertenece a esta materia");
         }
 
         archivoRepository.delete(archivo);
