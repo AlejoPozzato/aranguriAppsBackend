@@ -28,7 +28,7 @@ public class AutenticacionService {
             throw new CredencialesIncorrectasException("Contraseña incorrecta");
         }
 
-        String token = jwtService.generarToken(usuario.getEmail());
+        String token = jwtService.generarToken(usuario);
         //Retorno Dto
         return new LoginResponse(token, usuario.getId(), usuario.getNombre(), usuario.getEmail());
     }

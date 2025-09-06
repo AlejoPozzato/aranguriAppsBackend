@@ -1,5 +1,6 @@
 package com.challenge.aranguriAppsBackend.service;
 
+import com.challenge.aranguriAppsBackend.model.Usuario;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,9 +22,10 @@ public class JwtService {
         this.expirationTime = expirationTime;
     }
 
-    public String generarToken(String email) {
+    public String generarToken(Usuario usuario) {
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(usuario.getEmail())
+                .claim("id", usuario.getId())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(secretKey)
@@ -37,6 +39,15 @@ public class JwtService {
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
+    }
+
+    public Integer extraerUserId(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("id", Integer.class);
     }
 
     public boolean isTokenValid(String token) {
