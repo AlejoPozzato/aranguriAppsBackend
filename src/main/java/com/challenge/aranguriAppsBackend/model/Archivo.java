@@ -6,12 +6,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Table(name = "archivos")
 @Entity
 public class Archivo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     private String nombre;
     private String tipo;

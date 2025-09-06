@@ -5,6 +5,7 @@ import com.challenge.aranguriAppsBackend.exception.UsuarioNoEncontradoException;
 import com.challenge.aranguriAppsBackend.exception.UsuarioYaExistenteException;
 import com.challenge.aranguriAppsBackend.model.Usuario;
 import com.challenge.aranguriAppsBackend.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
     public Usuario registrar(RegisterRequest request) {
         if (usuarioRepository.existsByEmail(request.email())) {
             throw new UsuarioYaExistenteException("El email ya está registrado");
@@ -35,6 +37,15 @@ public class UsuarioService {
 
     public Usuario buscarPorEmail(String email) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
+        if (usuarioOpt.isPresent()) {
+            return usuarioOpt.get();
+        } else {
+            throw new UsuarioNoEncontradoException("Usuario no encontrado");
+        }
+    }
+
+    public Usuario obtenerUsuarioPorId(int id) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
         if (usuarioOpt.isPresent()) {
             return usuarioOpt.get();
         } else {
