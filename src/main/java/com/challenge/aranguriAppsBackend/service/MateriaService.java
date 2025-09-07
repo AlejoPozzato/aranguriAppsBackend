@@ -14,13 +14,13 @@ import java.util.List;
 public class MateriaService {
 
     private final MateriaRepository materiaRepository;
-    private final UsuarioService usuarioService; // usamos el servicio
+    private final UsuarioService usuarioService;
 
     public MateriaService(MateriaRepository materiaRepository, UsuarioService usuarioService) {
         this.materiaRepository = materiaRepository;
         this.usuarioService = usuarioService;
     }
-
+    //Crear Materias
     @Transactional
     public Materia crearMateria(int usuarioId, MateriaRequest request) {
         Usuario usuario = usuarioService.obtenerUsuarioPorId(usuarioId);

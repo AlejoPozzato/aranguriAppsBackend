@@ -14,7 +14,7 @@ public class AutenticacionController {
     public AutenticacionController(AutenticacionService authService) {
         this.authService = authService;
     }
-
+    //Login
     @PostMapping("/api/autenticacion/login")
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest request) {
         LoginResponse response = authService.login(request);

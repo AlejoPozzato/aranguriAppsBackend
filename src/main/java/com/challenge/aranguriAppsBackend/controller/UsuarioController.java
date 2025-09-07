@@ -17,6 +17,7 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
+    //Registrar
     @PostMapping("/api/usuarios/registrar")
     public ResponseEntity<RegisterResponse> registrar(@RequestBody @Valid RegisterRequest request) {
         var usuario = usuarioService.registrar(request);

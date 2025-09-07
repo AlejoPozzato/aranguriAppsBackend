@@ -23,6 +23,7 @@ public class ArchivoController {
         this.archivoService = archivoService;
     }
 
+    //Creo archivo
     @PostMapping
     public ResponseEntity<ArchivoResponse> crearArchivo(
             @RequestHeader("Authorization") String authHeader,
@@ -42,6 +43,7 @@ public class ArchivoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    //Listar archivos
     @GetMapping
     public ResponseEntity<List<ArchivoResponse>> listarArchivos(
             @RequestHeader("Authorization") String authHeader,
@@ -58,6 +60,7 @@ public class ArchivoController {
         return ResponseEntity.ok(archivos);
     }
 
+    //Eliminar archivos
     @DeleteMapping("/{archivoId}")
     public ResponseEntity<Void> eliminarArchivo(
             @RequestHeader("Authorization") String authHeader,

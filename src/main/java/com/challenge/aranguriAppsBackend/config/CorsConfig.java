@@ -8,13 +8,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsConfig {
 
+    //Configuro cors para que acceda el frontend
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")      // aplica a todos los endpoints
-                        .allowedOrigins("http://localhost:5173") // permite tu frontend
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:5173")
                         .allowedMethods("GET","POST","PUT","DELETE","OPTIONS")
                         .allowCredentials(true);
             }
