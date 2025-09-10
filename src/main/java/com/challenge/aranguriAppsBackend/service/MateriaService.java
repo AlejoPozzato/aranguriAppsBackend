@@ -27,16 +27,11 @@ public class MateriaService {
 
         Materia materia = new Materia();
         materia.setNombre(request.nombre());
-        materia.setDescripcion(request.descripcion());
         materia.setProfesor(request.profesor());
+        materia.setDescripcion(request.descripcion());
         materia.setUsuario(usuario);
-
-        if (request.fechaExamen1() != null) {
-            materia.setFechaExamen1(request.fechaExamen1());
-        }
-        if (request.fechaExamen2() != null) {
-            materia.setFechaExamen2(request.fechaExamen2());
-        }
+        materia.setFechaExamen1(request.fechaExamen1());
+        materia.setFechaExamen2(request.fechaExamen2());
 
         return materiaRepository.save(materia);
     }

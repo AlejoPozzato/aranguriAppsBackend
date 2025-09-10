@@ -60,8 +60,8 @@ public class MateriaController {
                 .map(m -> new MateriaResponse(
                         m.getId(),
                         m.getNombre(),
-                        m.getDescripcion(),
                         m.getProfesor(),
+                        m.getDescripcion(),
                         m.getFechaExamen1(),
                         m.getFechaExamen2(),
                         m.getArchivos().stream()

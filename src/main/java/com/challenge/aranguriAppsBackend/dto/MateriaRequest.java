@@ -13,13 +13,13 @@ public record MateriaRequest(
         @Size(max = 100, message = "El nombre del profesor no puede superar los 100 caracteres")
         String profesor,
 
-        @Size(max = 500, message = "La descripcion no puede superar los 500 caracteres")
+        @Size(max = 500, message = "La descripción no puede superar los 500 caracteres")
         String descripcion,
 
-        @Future(message = "La fecha de examen debe ser en el futuro")
+        @Future(message = "Fecha de exámen inválida")
         LocalDate fechaExamen1,
 
-        @Future(message = "La fecha de examen debe ser en el futuro")
+        @Future(message = "Fecha de exámen inválida")
         LocalDate fechaExamen2
 ) { }
 
