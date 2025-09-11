@@ -37,8 +37,8 @@ public class MateriaController {
         MateriaResponse response = new MateriaResponse(
                 materia.getId(),
                 materia.getNombre(),
-                materia.getDescripcion(),
                 materia.getProfesor(),
+                materia.getDescripcion(),
                 materia.getFechaExamen1(),
                 materia.getFechaExamen2(),
                 materia.getArchivos().stream()
@@ -77,7 +77,7 @@ public class MateriaController {
     public ResponseEntity<MateriaResponse> editarMateria(
             @RequestHeader("Authorization") String token,
             @PathVariable int materiaId,
-            @RequestBody MateriaRequest request) {
+            @Valid @RequestBody MateriaRequest request) {
 
         int usuarioId = jwtService.extraerUserId(token.substring(7));
         Materia materia = materiaService.editarMateria(usuarioId, materiaId, request);
@@ -85,8 +85,8 @@ public class MateriaController {
         MateriaResponse response = new MateriaResponse(
                 materia.getId(),
                 materia.getNombre(),
-                materia.getDescripcion(),
                 materia.getProfesor(),
+                materia.getDescripcion(),
                 materia.getFechaExamen1(),
                 materia.getFechaExamen2(),
                 materia.getArchivos().stream()
@@ -96,4 +96,16 @@ public class MateriaController {
 
         return ResponseEntity.ok(response);
     }
+    //Eliminar materia
+    @DeleteMapping("/{materiaId}")
+    public ResponseEntity<Void> eliminarMateria(
+            @RequestHeader("Authorization") String token,
+            @PathVariable int materiaId) {
+
+        int usuarioId = jwtService.extraerUserId(token.substring(7));
+        materiaService.eliminarMateria(usuarioId, materiaId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }

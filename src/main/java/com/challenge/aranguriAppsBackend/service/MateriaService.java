@@ -65,6 +65,16 @@ public class MateriaService {
         return materiaRepository.save(materia);
     }
 
+    public void eliminarMateria(int usuarioId, int materiaId) {
+        Materia materia = buscarPorId(materiaId);
+
+        if (materia.getUsuario().getId() != usuarioId) {
+            throw new NoPermissionException("No tiene permiso para eliminar esta materia");
+        }
+
+        materiaRepository.delete(materia);
+    }
+
     public Materia buscarPorId(int materiaId) {
         return materiaRepository.findById(materiaId)
                 .orElseThrow(() -> new MateriaNotFoundException("Materia no encontrada"));
